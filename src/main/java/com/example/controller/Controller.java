@@ -39,7 +39,7 @@ public class Controller {
 
     }
 
-    @GetMapping("/delete-bucket/{bucketName}")
+    @DeleteMapping("/delete-bucket/{bucketName}")
     public ResponseEntity<?> deleteBucket(@PathVariable String bucketName) {
         try {
             return ResponseEntity.ok(s3Service.deleteBucket(bucketName));
