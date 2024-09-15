@@ -14,12 +14,7 @@ import java.io.IOException;
 @Slf4j
 public class S3Service {
 
-
     private final S3Client s3Client;
-
-    @Value("${aws.s3.bucketName}")
-    private String bucketName;
-
     public S3Service(S3Client s3Client) {
         this.s3Client = s3Client;
     }

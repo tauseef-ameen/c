@@ -64,7 +64,7 @@ This project serves as a foundational example for demonstrating how to interact 
 ## To Run the Docker Container
 
 ```bash
-docker run -p 8080:8080 secrets/awss3:0.0.1-SNAPSHOT
+ docker run -p 8080:8080 -e AWS_ACCESS_KEY_ID=<aws-access-key> -e AWS_SECRET_ACCESS_KEY=<your-access-key-id> secrets/awss3:0.0.1-SNAPSHOT
 ```
 
 **Note:**
