@@ -3,43 +3,51 @@ package com.example.controller;
 import com.example.service.S3Service;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import software.amazon.awssdk.awscore.exception.AwsServiceException;
 
-import java.io.File;
 import java.io.IOException;
-import java.util.List;
-import java.util.Objects;
 
 @RestController
-@RequestMapping("/api/files")
+@RequestMapping("/api/s3")
 @Slf4j
 public class Controller {
 
     @Autowired
     private S3Service s3Service;
 
-    @PostMapping("/upload")
-    public String uploadFile(@RequestParam("file") MultipartFile file) {
+    @PostMapping("/upload/{bucketName}")
+    public ResponseEntity<?> uploadFile(@PathVariable String bucketName,
+                                        @RequestParam("file") MultipartFile file) {
+
         try {
-            s3Service.uploadFile(file.getOriginalFilename(), file);
-            return "File uploaded successfully!";
-        } catch (IOException e) {
-            e.printStackTrace();
-            return "File upload failed!";
+            return ResponseEntity.ok(s3Service.uploadFile(file, bucketName));
+        } catch (AwsServiceException | IOException e) {
+            return ResponseEntity.badRequest().body("Error: " + e.getMessage());
         }
     }
-    @GetMapping("/user")
-    public List<String> getUser() {
-        log.info("User details are requested via GET method.");
 
-        return List.of("user1", "user2");
+    @GetMapping("/create-bucket/{bucketName}")
+    public ResponseEntity<?> createBucket(@PathVariable String bucketName) {
+        try {
+            return ResponseEntity.ok(s3Service.createBucket(bucketName));
+        } catch (AwsServiceException e) {
+            return ResponseEntity.badRequest().body("Error: " + e.getMessage());
+        }
+
     }
 
-    private File convertMultiPartToFile(MultipartFile file) throws IOException {
-        File convertedFile = new File(Objects.requireNonNull(file.getOriginalFilename()));
-        file.transferTo(convertedFile);
-        return convertedFile;
+    @GetMapping("/delete-bucket/{bucketName}")
+    public ResponseEntity<?> deleteBucket(@PathVariable String bucketName) {
+        try {
+            return ResponseEntity.ok(s3Service.deleteBucket(bucketName));
+        } catch (AwsServiceException e) {
+            return ResponseEntity.badRequest().body("Error: " + e.getMessage());
+        }
+
     }
+
 }
 
