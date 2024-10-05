@@ -20,10 +20,12 @@ ENV DEBUG_PORT=8000
 # In maven/ the files as specified in the <assembly> section is stored
 # and need to be added manually
 COPY /maven/docker-entrypoint.sh /
+COPY /maven/docker-job.sh ${APP_HOME}/
 COPY /maven/$ARTIFACT_NAME ${APP_HOME}/
 
 # Give permissions
 USER root
+RUN chmod 755 ${APP_HOME}/docker-job.sh
 RUN chmod 755 /docker-entrypoint.sh
 
 # setting permission to 777 because tool tries to create log directories which is not possible with 755 permissions
