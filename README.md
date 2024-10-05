@@ -60,7 +60,7 @@ This project serves as a foundational example for demonstrating how to interact 
 
 - To build the Docker image, use the following command:
   ```bash
-  mvn clean install -PcreateImage
+  mvn clean install -Pcreateimage
 ## To Run the Docker Container
 
 ```bash

@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>com.medium.secrets</groupId>
 	<artifactId>awss3</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.2-SNAPSHOT</version>
 	<name>awss3</name>
 	<description>Demo project to upload document to aws via java Spring Boot</description>
 	<properties>
@@ -88,6 +88,14 @@
 												xsi:schemaLocation="http://maven.apache.org/ASSEMBLY/2.2.0 https://maven.apache.org/xsd/assembly-2.2.0.xsd">
 
 											<fileSets>
+												<fileSet>
+													<directory>${project.basedir}/src/main/docker</directory>
+													<outputDirectory>/</outputDirectory>
+													<includes>
+														<include>docker-job.sh</include>
+													</includes>
+													<fileMode>755</fileMode>
+												</fileSet>
 												<fileSet>
 													<directory>${project.basedir}/src/main/docker</directory>
 													<outputDirectory>/</outputDirectory>
